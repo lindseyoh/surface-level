@@ -21,7 +21,7 @@
   {ageGroups}
   {allAverages}
   formatPoints={screenTimePoints}
-  color="steelblue"
+  color="blue"
 />
 
 <div>s</div>

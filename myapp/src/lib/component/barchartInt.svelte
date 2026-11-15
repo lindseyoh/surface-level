@@ -31,6 +31,11 @@
 
 <h1>{title}</h1>
 <div class="chart" bind:clientWidth={width}>
+  {#if hoveredBar !== null}
+    <div class="tooltip">
+      Value: {points[hoveredBar].value}
+    </div>
+  {/if}
   <svg {width} {height}>
     <!-- 4. Design the bars -->
     <g class="bars">
@@ -81,8 +86,14 @@
   .bars rect {
     stroke: none;
     transition: fill 150ms ease;
+    fill: #ffc400;
   }
 
+  .bars rect.hovered {
+    stroke: none;
+
+    fill: #0099ff;
+  }
   .tick {
     font-family: Poppins, sans-serif;
     font-size: 0.725em;
