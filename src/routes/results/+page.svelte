@@ -65,6 +65,7 @@
       averageByAge(data?.internet_data ?? [], "age_group", group),
     ),
   );
+  let yourAge = outcome.age
 </script>
 
 <main class="results">
@@ -75,6 +76,7 @@
       {ageGroups}
       {allAverages}
       formatPoints={screenTimePoints}
+      {yourAge}
       color="steelblue"
     />
 
