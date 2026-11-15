@@ -44,100 +44,128 @@
 
 
 <main class="results">
-  <h1>Your results</h1>
+  <div class="main-result">
+    <h1>Your results</h1>
 
-  {#if !outcome}
-    <p>No results yet. The results reset if you reload the page.</p>
-    <a href="/quiz">Take the quiz</a>
-  {:else}
-    <section class="card">
-      <h2>Gender vibes</h2>
-      <div class="bar">
-        <div class="fill" style="width: {outcome.femalePct}%"></div>
-      </div>
-      <p class="split">
-        <span>{outcome.femalePct}% female-coded</span>
-        <span>{100 - outcome.femalePct}% male-coded</span>
-      </p>
-      {#if pushText(outcome.reasons?.gender, "female", "male")}
-        <p class="why">{pushText(outcome.reasons.gender, "female", "male")}</p>
-      {/if}
-      <BarChart
-    title="Gender vibes (%)"
-    points={genderPoints}
-    color="steelblue"
-  />
-    </section>
-
-    <section class="card">
-      <h2>Personality age</h2>
-      <p class="big">You answer like a {outcome.age}-year-old</p>
-      {#if pushText(outcome.reasons?.age, "older", "younger")}
-        <p class="why">{pushText(outcome.reasons.age, "older", "younger")}</p>
-      {/if}
-    </section>
-
-    {#if outcome.screenAge}
+    {#if !outcome}
+      <p>No results yet. The results reset if you reload the page.</p>
+      <a href="/quiz">Take the quiz</a>
+    {:else}
       <section class="card">
-        <h2>Screen-time age</h2>
-        <p class="big">Your screen habits say you're {outcome.screenAge}</p>
-        <p>
-          That's about {totalHours.toFixed(1)} hours of screen time a day.
-          {#if outcome.age}
-            {#if outcome.screenAge < outcome.age}
-              Your screens are {outcome.age - outcome.screenAge} years younger than your personality.
-            {:else if outcome.screenAge > outcome.age}
-              Your screens are {outcome.screenAge - outcome.age} years older than your personality.
-            {:else}
-              Your screens and your personality agree!
-            {/if}
-          {/if}
+        <h2>Gender vibes</h2>
+        <div class="bar">
+          <div class="fill" style="width: {outcome.femalePct}%"></div>
+        </div>
+        <p class="split">
+          <span>{outcome.femalePct}% female-coded</span>
+          <span>{100 - outcome.femalePct}% male-coded</span>
         </p>
-        <BarChart title="Average Screen Time" points={screenPoints} color="steelblue" />
-        <p class="why">Based on a synthetic internet-usage dataset.</p>
+        {#if pushText(outcome.reasons?.gender, "female", "male")}
+          <p class="why">{pushText(outcome.reasons.gender, "female", "male")}</p>
+        {/if}
+        <!-- <BarChart
+          title="Gender vibes (%)"
+          points={genderPoints}
+          color="steelblue"
+        /> -->
       </section>
-    {/if}
 
-    {#if outcome.height}
+      <span></span>
+
       <section class="card">
-        <h2>Height guess</h2>
-        <p class="big">{feetInches(outcome.height)} ({outcome.height} cm)</p>
-        {#if pushText(outcome.reasons?.height, "taller", "shorter")}
-          <p class="why">{pushText(outcome.reasons.height, "taller", "shorter")}</p>
+        <h2>Personality age</h2>
+        <p class="big">You answer like a {outcome.age}-year-old</p>
+        {#if pushText(outcome.reasons?.age, "older", "younger")}
+          <p class="why">{pushText(outcome.reasons.age, "older", "younger")}</p>
         {/if}
       </section>
+
+      <span></span>
+
+      {#if outcome.screenAge}
+        <section class="card">
+          <h2>Screen-time age</h2>
+          <p class="big">Your screen habits say you're {outcome.screenAge}</p>
+          <p>
+            That's about {totalHours.toFixed(1)} hours of screen time a day.
+            {#if outcome.age}
+              {#if outcome.screenAge < outcome.age}
+                Your screens are {outcome.age - outcome.screenAge} years younger than your personality.
+              {:else if outcome.screenAge > outcome.age}
+                Your screens are {outcome.screenAge - outcome.age} years older than your personality.
+              {:else}
+                Your screens and your personality agree!
+              {/if}
+            {/if}
+          </p>
+          <!-- <BarChart title="Average Screen Time" points={screenPoints} color="steelblue" /> -->
+          <!-- <p class="why">Based on a synthetic internet-usage dataset.</p> -->
+        </section>
+      {/if}
+      
+      {#if outcome.height}
+      <span></span>
+        <section class="card">
+          <h2>Height guess</h2>
+          <p class="big">{feetInches(outcome.height)} ({outcome.height} cm)</p>
+          {#if pushText(outcome.reasons?.height, "taller", "shorter")}
+            <p class="why">{pushText(outcome.reasons.height, "taller", "shorter")}</p>
+          {/if}
+        </section>
+      {/if}
+
+      <span></span>
+      <section class="card">
+        <h2>Lefty meter</h2>
+        <div class="bar">
+          <div class="fill" style="width: {outcome.leftyPct}%"></div>
+        </div>
+        <p>
+          You are:
+          {outcome.leftyPct > 50 ? "More left-handed than most." : "More right-handed than most."}
+          ({outcome.leftyPct} on a 0–100 lefty scale)
+        </p>
+        {#if pushText(outcome.reasons?.hand, "left-handed", "right-handed")}
+          <p class="why">{pushText(outcome.reasons.hand, "left-handed", "right-handed")}</p>
+        {/if}
+      </section>
+
+      <p class="note">
+        Just for fun: these are guesses from patterns in survey data, and they're often wrong.
+      </p>
+      <a href="/quiz">Take it again</a>
     {/if}
 
-    <section class="card">
-      <h2>Lefty meter</h2>
-      <div class="bar">
-        <div class="fill" style="width: {outcome.leftyPct}%"></div>
-      </div>
-      <p>
-        {outcome.leftyPct > 50 ? "More lefty than most." : "More righty than most."}
-        ({outcome.leftyPct} on a 0–100 lefty scale)
-      </p>
-      {#if pushText(outcome.reasons?.hand, "left-handed", "right-handed")}
-        <p class="why">{pushText(outcome.reasons.hand, "left-handed", "right-handed")}</p>
-      {/if}
-    </section>
-
-    <p class="note">
-      Just for fun: these are guesses from patterns in survey data, and they're often wrong.
-    </p>
-    <a href="/quiz">Take it again</a>
-  {/if}
-
-<!-- <BarChart
-  title="Average Screen Time: Ages 19-25"
-  points={genderPoints}
-  color="steelblue"
-/> -->
-  
+  <!-- <BarChart
+    title="Average Screen Time: Ages 19-25"
+    points={genderPoints}
+    color="steelblue"
+  /> -->
+  </div>
 </main>
 
 
 <style>
+  main {
+      display: flex;
+      justify-content: center;
+      background-color:rgb(146, 135, 107);
+      border-radius: 25px;
+  }
+  .main-result {
+      background-color:white;
+      padding-right: 20%;
+      padding-left: 20%;
+      margin: 5%;
+      border-radius: 55px;
+      min-width: 200px;
+      max-width: 41vw;
+  }  
 
+  span {
+    border: solid black 1px;
+    /* width: 100%; */
+    display:block;
+  }
 </style>
 
