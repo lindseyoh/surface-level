@@ -9,6 +9,7 @@
     allAverages,
     formatPoints,
     color = "steelblue",
+    yourAge,
   } = $props();
 
   // Each component instance has its own scroll state
@@ -20,6 +21,13 @@
   let chartPoints = $derived(
     allAverages[currentIndex] ? formatPoints(allAverages[currentIndex]) : [],
   );
+  function isAgeInRange(age, rangeString) {
+    // Split "12-22" into ["12", "22"] and convert both to numbers
+    const [min, max] = rangeString.split("-").map(Number);
+
+    // Check if age falls within the range (inclusive)
+    return age >= min && age <= max;
+  }
 </script>
 
 <section class="scrolly-section">
@@ -28,7 +36,13 @@
   <div class="scrolly">
     <div class="chart-container">
       <h3>Ages {currentGroup}</h3>
-      <BarChart points={chartPoints} {color} />
+
+      {#if isAgeInRange(yourAge, currentGroup)}
+        <h3>You are {yourAge}</h3>
+        <BarChart points={chartPoints} color="red" />
+      {:else}
+        <BarChart points={chartPoints} {color} />
+      {/if}
     </div>
 
     <div class="scroll-container">
