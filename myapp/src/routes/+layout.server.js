@@ -16,7 +16,6 @@ export function load() {
   });
   const young_data = parse(young_people_data, {
     columns: true,
-    delimiter: "\t",
     skip_empty_lines: true,
   });
   return { internet_data, personality_data };

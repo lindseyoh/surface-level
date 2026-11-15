@@ -26,6 +26,7 @@
   }
 </script>
 
+<h1>{title}</h1>
 <div class="chart" bind:clientWidth={width}>
   <svg {width} {height}>
     <!-- 4. Design the bars -->
@@ -44,7 +45,7 @@
       {#each yTicks as tick}
         <g class="tick tick-{tick}" transform="translate(0, {yScale(tick)})">
           <line x2="100%" />
-          <text y="-4">{tick} </text>
+          <text y="-4">{tick} asdfasfd </text>
         </g>
       {/each}
     </g>
@@ -65,11 +66,11 @@
 <style>
   .x-axis .tick text {
     text-anchor: middle;
-    color: white;
+    color: rgb(255, 0, 0);
   }
 
   .bars rect {
-    fill: #fcd34d;
+    fill: #000082;
     stroke: none;
   }
 
