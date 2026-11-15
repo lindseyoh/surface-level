@@ -27,7 +27,7 @@
 </script>
 
 <main class="quiz">
-  <h1>Slop unc detector</h1>
+  <h1>Surface Level - Quiz</h1>
 
   {#if question}
     <p>Question {current + 1} of {questions.length}</p>

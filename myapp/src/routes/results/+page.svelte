@@ -171,11 +171,10 @@
         {/if}
       </section>
 
-      <p class="note">
-        Just for fun: these are guesses from patterns in survey data, and
-        they're often wrong.
-      </p>
-      <a href="/quiz">Take it again</a>
+      <!-- <p class="note">
+        Just for fun: these are guesses from patterns in survey data, and they're often wrong.
+      </p> -->
+      <a href="/quiz"><button>Take it again</button></a>
     {/if}
 
     <!-- <BarChart
@@ -186,7 +185,7 @@
   </div>
 </main>
 
-<style>
+<!-- <style>
   main {
     display: flex;
     justify-content: center;
@@ -210,3 +209,4 @@
     display: block;
   }
 </style>
+

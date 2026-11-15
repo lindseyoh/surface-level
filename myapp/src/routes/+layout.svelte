@@ -1,6 +1,9 @@
 <script lang="ts">
-	let { children } = $props();
+  import "../app.css";
+  let { children } = $props();
 </script>
 
+<div class="inner">
+	{@render children()}
 
-{@render children()}
+</div>
