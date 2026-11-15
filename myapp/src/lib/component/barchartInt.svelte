@@ -1,7 +1,10 @@
 <script>
   import { scaleLinear } from "d3-scale";
-  const yTicks = [0, 2, 4, 6, 8, 10, 12, 14];
+  const yTicks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const padding = { top: 20, right: 15, bottom: 20, left: 25 };
+  /** @type {number | null} */
+
+  let hoveredBar = $state(null);
 
   let width = $state(500);
   let height = 350;
@@ -33,19 +36,25 @@
     <g class="bars">
       {#each points as point, i}
         <rect
+          role="img"
           x={xScale(i) + 2}
           y={yScale(point.value)}
           width={barWidth * 0.9}
           height={yScale(0) - yScale(point.value)}
+          class:hovered={hoveredBar === i}
+          onmouseenter={() => (hoveredBar = i)}
+          onmouseleave={() => (hoveredBar = null)}
+          class="transition-colors duration-150"
         />
       {/each}
     </g>
+
     <!-- Design y axis -->
     <g class="axis y-axis">
       {#each yTicks as tick}
         <g class="tick tick-{tick}" transform="translate(0, {yScale(tick)})">
           <line x2="100%" />
-          <text y="-4">{tick} asdfasfd </text>
+          <text y="-4">{tick} Hours </text>
         </g>
       {/each}
     </g>
@@ -55,7 +64,7 @@
       {#each points as point, i}
         <g class="tick" transform="translate({xScale(i)}, {height})">
           <text x={barWidth / 2} y="-4">
-            {width > 380 ? point.year : formatMobile(point.year)}</text
+            {width > 380 ? point.label : formatMobile(point.year)}</text
           >
         </g>
       {/each}
@@ -70,25 +79,25 @@
   }
 
   .bars rect {
-    fill: #000082;
     stroke: none;
+    transition: fill 150ms ease;
   }
 
   .tick {
     font-family: Poppins, sans-serif;
     font-size: 0.725em;
     font-weight: 200;
-    color: white;
+    color: rgb(5, 4, 4);
   }
 
   .tick text {
-    fill: white;
+    fill: rgb(255, 17, 17);
     text-anchor: start;
-    color: white;
+    color: rgb(227, 34, 34);
   }
 
   .tick line {
-    stroke: #fcd34d;
+    stroke: #221b02;
     stroke-dasharray: 2;
     opacity: 1;
   }

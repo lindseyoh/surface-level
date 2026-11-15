@@ -1,20 +1,27 @@
 <script>
-  import BarChart from "#lib/component/barchart.svelte";
-  import { averageByAge } from "#lib/funcs/avg.js";
-  import { screenTimePoints } from "#lib/funcs/format.js";
+  import ScrollySection from "#lib/component/scrolnet.svelte";
+  import { averageByAge } from "#lib/funcs/avgInt.js";
+  import { screenTimePoints } from "#lib/funcs/formatInt.js";
 
   let { data } = $props();
 
-  let averages = $derived(
-    averageByAge(data.internet_data, "age_group", "19-25"),
-  );
+  const ageGroups = ["13-18", "19-25", "26-35", "36-45", "46-60", "60+"];
 
-  // @ts-ignore
-  let chartPoints = $derived(screenTimePoints(averages));
+  let allAverages = $derived(
+    ageGroups.map((group) =>
+      averageByAge(data.internet_data, "age_group", group),
+    ),
+  );
 </script>
 
-<BarChart
-  title="Average Screen Time: Ages 19-25"
-  points={chartPoints}
+<h1>Your Results</h1>
+
+<ScrollySection
+  title="What are you using your screen time on?"
+  {ageGroups}
+  {allAverages}
+  formatPoints={screenTimePoints}
   color="steelblue"
 />
+
+<div>s</div>
