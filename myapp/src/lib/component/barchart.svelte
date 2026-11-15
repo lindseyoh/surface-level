@@ -1,62 +1,92 @@
 <script>
   import { scaleLinear } from "d3-scale";
-  const yTicks = [0, 2, 4, 6, 8, 10, 12, 14];
-  const padding = { top: 20, right: 15, bottom: 20, left: 25 };
+
+  let { title = "", points = [], color = "steelblue" } = $props();
+
+  const padding = {
+    top: 20,
+    right: 15,
+    bottom: 65,
+    left: 35,
+  };
 
   let width = $state(500);
-  let height = 350;
-  let { title = "", points = [], color = "red" } = $props();
+  const height = 350;
+
+  const yTicks = [0, 2, 4, 6, 8, 10, 12, 14];
+
+  let innerWidth = $derived(Math.max(0, width - padding.left - padding.right));
+
+  let barWidth = $derived(innerWidth / Math.max(points.length, 1));
 
   let xScale = $derived(
     scaleLinear()
-      .domain([0, points.length])
+      .domain([0, Math.max(points.length, 1)])
       .range([padding.left, width - padding.right]),
   );
 
   let yScale = scaleLinear()
-    .domain([0, Math.max.apply(null, yTicks)])
+    .domain([0, 14])
     .range([height - padding.bottom, padding.top]);
 
-  let innerWidth = $derived(width - (padding.left + padding.right));
-  let barWidth = $derived(innerWidth / points.length);
-
   // @ts-ignore
-  function formatMobile(tick) {
-    return "'" + tick.toString().slice(-2);
+  function numericValue(value) {
+    return Number(value) || 0;
   }
 </script>
 
-<h1>{title}</h1>
+{#if title}
+  <h2>{title}</h2>
+{/if}
+
 <div class="chart" bind:clientWidth={width}>
-  <svg {width} {height}>
-    <!-- 4. Design the bars -->
-    <g class="bars">
-      {#each points as point, i}
-        <rect
-          x={xScale(i) + 2}
-          y={yScale(point.value)}
-          width={barWidth * 0.9}
-          height={yScale(0) - yScale(point.value)}
-        />
-      {/each}
-    </g>
-    <!-- Design y axis -->
+  <svg
+    width="100%"
+    {height}
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-label={title || "Average screen time bar chart"}
+  >
+    <!-- Horizontal grid lines and Y axis -->
     <g class="axis y-axis">
       {#each yTicks as tick}
-        <g class="tick tick-{tick}" transform="translate(0, {yScale(tick)})">
-          <line x2="100%" />
-          <text y="-4">{tick} asdfasfd </text>
+        <g class="tick" transform={`translate(0, ${yScale(tick)})`}>
+          <line x1={padding.left} x2={width - padding.right} />
+
+          <text x={padding.left - 8} y="4" text-anchor="end">
+            {tick}
+          </text>
         </g>
       {/each}
     </g>
 
-    <!-- Design x axis -->
+    <!-- Bars -->
+    <g class="bars">
+      {#each points as point, i}
+        <rect
+          x={xScale(i) + barWidth * 0.1}
+          y={yScale(numericValue(point.value))}
+          width={barWidth * 0.8}
+          height={Math.max(0, yScale(0) - yScale(numericValue(point.value)))}
+          fill={color}
+        >
+          <title
+            >{point.label}: {numericValue(point.value).toFixed(2)} hours</title
+          >
+        </rect>
+      {/each}
+    </g>
+
+    <!-- X axis labels -->
     <g class="axis x-axis">
       {#each points as point, i}
-        <g class="tick" transform="translate({xScale(i)}, {height})">
-          <text x={barWidth / 2} y="-4">
-            {width > 380 ? point.year : formatMobile(point.year)}</text
-          >
+        <g
+          class="tick"
+          transform={`translate(${xScale(i) + barWidth / 2}, ${height - padding.bottom})`}
+        >
+          <text x="0" y="18" text-anchor="middle">
+            {point.label}
+          </text>
         </g>
       {/each}
     </g>
@@ -64,37 +94,44 @@
 </div>
 
 <style>
-  .x-axis .tick text {
-    text-anchor: middle;
-    color: rgb(255, 0, 0);
+  .chart {
+    width: 100%;
+    min-width: 0;
+  }
+
+  svg {
+    display: block;
+    overflow: visible;
   }
 
   .bars rect {
-    fill: #000082;
     stroke: none;
+    transition:
+      y 0.4s ease,
+      height 0.4s ease,
+      fill 0.3s ease;
+  }
+
+  .bars rect:hover {
+    opacity: 0.75;
   }
 
   .tick {
     font-family: Poppins, sans-serif;
-    font-size: 0.725em;
-    font-weight: 200;
-    color: white;
+    font-size: 12px;
+    font-weight: 400;
   }
 
   .tick text {
-    fill: white;
-    text-anchor: start;
-    color: white;
+    fill: #333;
   }
 
-  .tick line {
-    stroke: #fcd34d;
-    stroke-dasharray: 2;
-    opacity: 1;
+  .y-axis line {
+    stroke: #ddd;
+    stroke-dasharray: 3 3;
   }
 
-  .tick.tick-0 line {
-    display: inline-block;
-    stroke-dasharray: 0;
+  .x-axis text {
+    font-size: 11px;
   }
 </style>

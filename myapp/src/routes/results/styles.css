@@ -1,8 +1,8 @@
 #awesome {
-    color:rgb(52, 26, 17);
+  color: rgb(52, 26, 17);
 }
-h2{
-    color:rgb(48, 95, 79);
+h2 {
+  color: rgb(48, 95, 79);
 }
 /* span{
     font-width: 500%; 
@@ -11,45 +11,94 @@ h2{
     border:thick,rgb(44, 48, 156) 2px;
     width:fit-content;
 } */
-    /* background-color: lightblue; */
-    /* block-size: 800px;
+/* background-color: lightblue; */
+/* block-size: 800px;
     font-width: 500%; */
 span {
-    border: solid black 1px;
-    /* width: 100%; */
-    display:block;
+  border: solid black 1px;
+  /* width: 100%; */
+  display: block;
 }
-p{
-    font-width: 500%; 
-    /* Note: testing if I can make something wider with this command */
+p {
+  font-width: 500%;
+  /* Note: testing if I can make something wider with this command */
 }
 #buffer {
-    border: solid black 0px;
-    block-size: 100px;
-    display:block;
+  border: solid black 0px;
+  block-size: 100px;
+  display: block;
 }
 body {
-    background-color: rgb(66, 40, 28);
+  background-color: rgb(66, 40, 28);
 }
 #surrounding {
-    display: flex;
-    justify-content: center;
-    background-color:rgb(146, 135, 107);
-    border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(146, 135, 107);
+  border-radius: 25px;
 }
 #main_layout {
-    background-color:white;
-    padding-right: 20%;
-    padding-left: 20%;
-    margin: 5%;
-    border-radius: 55px;
-    min-width: 200px;
-    max-width: 41vw;
-}   
+  background-color: white;
+  padding-right: 20%;
+  padding-left: 20%;
+  margin: 5%;
+  border-radius: 55px;
+  min-width: 200px;
+  max-width: 41vw;
+}
 .container {
-    display: flex;
+  display: flex;
 }
 .container div {
-    justify-content: center;
-    margin: 20px;
+  justify-content: center;
+  margin: 20px;
+}
+
+:global(html, body) {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto; /* Allows vertical scrolling when content is taller than the screen */
+  overflow-x: hidden; /* Prevents unwanted side-to-side scrolling */
+}
+.scrolly {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.chart-container {
+  position: sticky;
+  top: 20vh;
+  min-width: 0;
+}
+
+.scroll-container section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-container section.active {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .scrolly {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    top: 0;
+    background: white;
+    z-index: 10;
+  }
+
+  .scroll-container section {
+    min-height: 70vh;
+  }
 }
