@@ -2,6 +2,7 @@
 // answers looks like: { E1: 4, N8: 2, Action: 5, ... }  (each answer is 1–5)
 import big5 from "./big5_model.json";
 import yp from "./yp_model.json";
+import screen from "./screen_model.json";
 
 // If a question somehow wasn't answered, treat it as neutral (3)
 const answerOf = (answers, q) => answers[q] ?? 3;
@@ -73,7 +74,9 @@ export function predict(answers) {
     leftyPct: round(averageOf("hand", toPercent)),
     age: round(averageOf("age")),
     height: round(averageOf("height")),
-    race: big5.race ? groupChances(big5.race, answers) : null,
+    screenAge: screen.age
+      ? Math.min(80, Math.max(13, Math.round(score(screen.age, answers))))
+      : null,
     reasons: {
       gender: reasonFor("gender"),
       hand: reasonFor("hand"),

@@ -12,6 +12,19 @@
     ] : [],
   );
 
+  // The user's own hours, from their quiz answers
+  let screenPoints = $derived(
+    quizState.answers
+      ? [
+          { label: "Social media", value: quizState.answers.social_media_hours ?? 0 },
+          { label: "Work / school", value: quizState.answers.work_or_study_hours ?? 0 },
+          { label: "Entertainment", value: quizState.answers.entertainment_hours ?? 0 },
+        ]
+      : [],
+  );
+
+  let totalHours = $derived(screenPoints.reduce((sum, p) => sum + p.value, 0));
+
   // Turns a question id like "N8" back into its quiz wording
   const textOf = (id) => questions.find((q) => q.id === id)?.text ?? id;
 
@@ -27,6 +40,8 @@
     return `“${textOf(reason.question)}” pushed you toward ${reason.push > 0 ? up : down}.`;
   }
 </script>
+
+
 
 <main class="results">
   <h1>Your results</h1>
@@ -48,7 +63,7 @@
         <p class="why">{pushText(outcome.reasons.gender, "female", "male")}</p>
       {/if}
       <BarChart
-    title="Average Screen Time: Ages 19-25"
+    title="Gender vibes (%)"
     points={genderPoints}
     color="steelblue"
   />
@@ -61,6 +76,27 @@
         <p class="why">{pushText(outcome.reasons.age, "older", "younger")}</p>
       {/if}
     </section>
+
+    {#if outcome.screenAge}
+      <section class="card">
+        <h2>Screen-time age</h2>
+        <p class="big">Your screen habits say you're {outcome.screenAge}</p>
+        <p>
+          That's about {totalHours.toFixed(1)} hours of screen time a day.
+          {#if outcome.age}
+            {#if outcome.screenAge < outcome.age}
+              Your screens are {outcome.age - outcome.screenAge} years younger than your personality.
+            {:else if outcome.screenAge > outcome.age}
+              Your screens are {outcome.screenAge - outcome.age} years older than your personality.
+            {:else}
+              Your screens and your personality agree!
+            {/if}
+          {/if}
+        </p>
+        <BarChart title="Average Screen Time" points={screenPoints} color="steelblue" />
+        <p class="why">Based on a synthetic internet-usage dataset.</p>
+      </section>
+    {/if}
 
     {#if outcome.height}
       <section class="card">
@@ -99,4 +135,9 @@
 /> -->
   
 </main>
+
+
+<style>
+
+</style>
 
