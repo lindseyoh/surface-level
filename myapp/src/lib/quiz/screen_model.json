@@ -1,0 +1,15 @@
+{
+  "age": {
+    "questions": [
+      "social_media_hours",
+      "work_or_study_hours",
+      "entertainment_hours"
+    ],
+    "intercept": 40.110558098463294,
+    "weights": [
+      -0.18365247841617638,
+      -0.15873140425824456,
+      -0.33965455004446765
+    ]
+  }
+}
