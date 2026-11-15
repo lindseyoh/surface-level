@@ -1,3 +1,12 @@
 {
-	"/": []
+	"/": [
+		"src/routes/+layout.server.js",
+		"src/routes/+layout.server.js"
+	],
+	"/quiz": [
+		"src/routes/+layout.server.js"
+	],
+	"/results": [
+		"src/routes/+layout.server.js"
+	]
 }
