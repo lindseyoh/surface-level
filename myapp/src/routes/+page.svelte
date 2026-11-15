@@ -1,7 +1,5 @@
-<h1>Unc Detector</h1>
+<h1>Unc Detesafsafsactor</h1>
 
-<form action="/quiz">
-  Take quiz?
-
-  <button>quiz time</button>
-</form>
+<a href="/quiz">
+  <button type="button">quiz time</button>
+</a>

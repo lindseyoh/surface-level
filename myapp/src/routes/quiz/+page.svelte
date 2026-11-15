@@ -1,3 +1,5 @@
 <h1>quiz time</h1>
 
-<form action="/post"></form>
+<a href="/results">
+  <button type="button">resu time</button>
+</a>

@@ -1,0 +1,26 @@
+import { parse } from "csv-parse/sync";
+
+import int_data from "#lib/files/daily_internet_usage_by_age_group.csv?raw";
+import per_data from "#lib/files/data.csv?raw";
+
+export async function load() {
+  const internet_data = parse(int_data, {
+    columns: true,
+    skip_empty_lines: true,
+  });
+  const personality_data = parse(per_data, {
+    columns: true,
+    delimiter: "\t",
+
+    skip_empty_lines: true,
+  });
+
+  // console.log(internet_data);
+
+  return {
+    internet_data,
+    personality_data,
+  };
+}
+
+// export async function actions() {}
