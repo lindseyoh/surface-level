@@ -185,28 +185,3 @@
   </div>
 </main>
 
-<!-- <style>
-  main {
-    display: flex;
-    justify-content: center;
-    background-color: rgb(146, 135, 107);
-    border-radius: 25px;
-  }
-  .main-result {
-    background-color: white;
-    padding: 3rem;
-    margin: 5%;
-    border-radius: 35px;
-    width: 100%;
-    max-width: 1100px;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  span {
-    border: solid black 1px;
-    /* width: 100%; */
-    display: block;
-  }
-</style>
-
